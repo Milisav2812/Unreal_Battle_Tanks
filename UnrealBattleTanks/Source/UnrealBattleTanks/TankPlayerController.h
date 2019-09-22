@@ -18,5 +18,10 @@ class UNREALBATTLETANKS_API ATankPlayerController : public APlayerController
 public:
 	ATank* GetControlledTank() const;
 
+	// Rotate the turret and elevate the barrel so they point to the crosshair
+	// so a shot could be fired at that location
+	void AimTowardsCrosshair();
+
 	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
 };
