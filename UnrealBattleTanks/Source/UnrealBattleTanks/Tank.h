@@ -8,6 +8,7 @@
 
 class UTankBarrel;
 class UTankAimingComponent;
+class UTankTurret;
 
 UCLASS()
 class UNREALBATTLETANKS_API ATank : public APawn
@@ -34,7 +35,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetBarrelReference(UTankBarrel* BarrelToSet);
 
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void SetTurretReference(UTankTurret* TurretToSet);
+
 private:
 	UPROPERTY(EditAnywhere)
-	float LaunchSpeed = 100000; // 1000 m/s
+	float LaunchSpeed = 4000; // 1000 m/s
 };
