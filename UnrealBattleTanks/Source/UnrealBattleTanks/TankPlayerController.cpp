@@ -3,8 +3,11 @@
 
 #include "TankPlayerController.h"
 #include "Engine/World.h"
+#include "Tank.h"
 #include "GameFramework/Actor.h"
 #include "GameFramework/PlayerController.h"
+
+#include "DrawDebugHelpers.h"
 
 void ATankPlayerController::BeginPlay()
 {
@@ -54,31 +57,45 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) cons
 	auto ScreenLocation = FVector2D(ViewportSizeX * CrossHairXLocation, ViewportSizeY * CrossHairYLocation);
 	
 	FVector LookDirection;
-	FHitResult HitResult;
 	if (GetLookDirection(ScreenLocation, LookDirection))
 	{
 		// Line-trace along that look direction and see what we hit (up to max range)
-		GetLookVectorHitLocation(OutHitLocation, LookDirection);
+		return GetLookVectorHitLocation(OutHitLocation, LookDirection);
 	}
-	
-	return true;
+	return false;
 }
 
 bool ATankPlayerController::GetLookVectorHitLocation(FVector& OutHitLocation, FVector LookDirection) const
 {
 	FHitResult HitResult;
-	auto StartLocation = PlayerCameraManager->GetCameraLocation();
-	auto EndLocation = StartLocation + LookDirection * LineTraceRange;
+	auto StartLocation = PlayerCameraManager->GetCameraLocation() + 10;
+	auto EndLocation = StartLocation + (LookDirection * LineTraceRange);
+	/* DrawDebugLine(
+		GetWorld(),
+		StartLocation,
+		EndLocation,
+		FColor(255, 0, 0),
+		false, -1, 0,
+		12.333
+	);
+	*/
+
+	FCollisionQueryParams LineTraceParams = FCollisionQueryParams(FName(TEXT("")), false, GetControlledTank());
+
 	if (GetWorld()->LineTraceSingleByChannel(
 		HitResult,
 		StartLocation,
 		EndLocation,
-		ECollisionChannel::ECC_Visibility)
+		ECollisionChannel::ECC_Visibility,
+		LineTraceParams
 		)
+	)
 	{
+		// UE_LOG(LogTemp, Warning, TEXT("LineTraceSingleByChannel HIT SOMETHING"))
 		OutHitLocation = HitResult.Location;
 		return true;
 	}
+	// UE_LOG(LogTemp, Error, TEXT("LineTraceSingleByChannel MISSED"))
 	OutHitLocation = FVector(0);
 	return false;
 }
