@@ -44,7 +44,7 @@ public:
 
 private:
 	UPROPERTY(EditAnywhere)
-	float LaunchSpeed = 4000; // 1000 m/s
+	float LaunchSpeed = 6000; // 1000 m/s
 
 	UPROPERTY(EditAnywhere, Category = Setup)
 	TSubclassOf<AProjectile> ProjectileBlueprint = nullptr;
