@@ -13,10 +13,6 @@ class UNREALBATTLETANKS_API ATankAIController : public AAIController
 {
 	GENERATED_BODY()
 
-public:
-	ATank* GetAIControlledTank() const;
-	ATank* GetPlayerTank() const;
-
 protected:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
