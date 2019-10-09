@@ -15,14 +15,6 @@ void ATankPlayerController::BeginPlay()
 	PrimaryActorTick.bCanEverTick = true;
 
 	ATank* ControlledTank = GetControlledTank();
-	if (ControlledTank)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Possessed tank: %s"), *ControlledTank->GetName())
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("NO POSSESSED TANK"), *ControlledTank->GetName())
-	}
 }
 
 void ATankPlayerController::Tick(float DeltaTime)
