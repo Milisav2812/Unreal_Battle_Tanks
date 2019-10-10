@@ -16,5 +16,7 @@ class UNREALBATTLETANKS_API ATankAIController : public AAIController
 protected:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
-	
+
+private:
+	float AcceptanceRadius = 3000; // When the AI tank gets this close to our tank, it stops
 };
