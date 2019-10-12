@@ -17,8 +17,11 @@ public:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
-private:
+protected:
+	UFUNCTION(BlueprintCallable, Category = "Setup")
 	ATank* GetControlledTank() const;
+
+private:
 
 	// Rotate the turret and elevate the barrel so they point to the crosshair
 	// so a shot could be fired at that location

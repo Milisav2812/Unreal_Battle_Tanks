@@ -18,5 +18,5 @@ protected:
 	virtual void Tick(float DeltaTime) override;
 
 private:
-	float AcceptanceRadius = 3000; // When the AI tank gets this close to our tank, it stops
+	float AcceptanceRadius = 1000; // When the AI tank gets this close to our tank, it stops
 };
