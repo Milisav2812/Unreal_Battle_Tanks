@@ -28,8 +28,12 @@ public:
 	UTankAimingComponent();
 
 	void AimAt(FVector HitLocation, float LaunchSpeed);
-	void SetBarrelReference(UTankBarrel* BarrelToSet);
-	void SetTurretReference(UTankTurret* TurretToSet);
+
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	void Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
+
+	UTankBarrel* GetBarrel() { return Barrel; }
+	UTankTurret* GetTurret() { return Turret; }
 	
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
