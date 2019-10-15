@@ -6,7 +6,7 @@
 #include "AIController.h"
 #include "TankAIController.generated.h"
 
-class ATank;
+class UTankAimingComponent;
 
 UCLASS()
 class UNREALBATTLETANKS_API ATankAIController : public AAIController
@@ -19,4 +19,6 @@ protected:
 
 private:
 	float AcceptanceRadius = 1000; // When the AI tank gets this close to our tank, it stops
+
+	UTankAimingComponent* TankAimingComponent = nullptr;
 };

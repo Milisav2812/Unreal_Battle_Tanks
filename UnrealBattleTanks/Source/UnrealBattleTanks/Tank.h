@@ -7,7 +7,6 @@
 #include "Tank.generated.h"
 
 class UTankBarrel;
-class UTankAimingComponent;
 class UTankTurret;
 class AProjectile;
 
@@ -24,16 +23,12 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(BlueprintReadOnly)
-	UTankAimingComponent* TankAimingComponent = nullptr;
-
-public:	
-	void AimAt(FVector HitLocation);
-
+public:
 	UFUNCTION(BlueprintCallable, Category = Firing)
 	void Fire();
 
 private:
+	// TODO Remove once Firing has been moved to AimingComponent
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float LaunchSpeed = 6000; // 1000 m/s
 
@@ -44,4 +39,6 @@ private:
 	TSubclassOf<AProjectile> ProjectileBlueprint = nullptr;
 
 	double LastFireTime = 0;
+
+	UTankBarrel* Barrel = nullptr;
 };
