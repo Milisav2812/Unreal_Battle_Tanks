@@ -2,11 +2,6 @@
 
 
 #include "Tank.h"
-#include "TankBarrel.h"
-#include "TankTurret.h"
-#include "Engine/World.h"
-#include "Components/StaticMeshComponent.h"
-#include "Projectile.h"
 
 // Sets default values
 ATank::ATank()
@@ -20,27 +15,5 @@ ATank::ATank()
 	// TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("Movement Component"));
 }
 
-// Called when the game starts or when spawned
-void ATank::BeginPlay()
-{
-	Super::BeginPlay();
-}
 
-void ATank::Fire()
-{
-	if (!ensure(Barrel)) { return; }
-	bool bIsReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
-
-	if (bIsReloaded) 
-	{ 
-		auto ProjectileSpawnLocation = Barrel->GetSocketLocation(FName("Projectile"));
-		auto ProjectileRotation = Barrel->GetSocketRotation(FName("Projectile"));
-
-		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, ProjectileSpawnLocation, ProjectileRotation);
-
-		Projectile->LaunchProjectile(LaunchSpeed);
-
-		LastFireTime = FPlatformTime::Seconds();
-	}
-}
 
