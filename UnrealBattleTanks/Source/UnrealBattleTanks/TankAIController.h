@@ -18,7 +18,8 @@ protected:
 	virtual void Tick(float DeltaTime) override;
 
 private:
-	float AcceptanceRadius = 1000; // When the AI tank gets this close to our tank, it stops
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	float AcceptanceRadius = 8000; // When the AI tank gets this close to our tank, it stops
 
 	UTankAimingComponent* TankAimingComponent = nullptr;
 };

@@ -35,6 +35,8 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
+
+	EFiringStatus GetFiringStatus() { return FiringStatus; }
 	
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
@@ -49,7 +51,7 @@ private:
 	bool IsBarrelMoving();
 
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
-	float LaunchSpeed = 6000; // 1000 m/s
+	float LaunchSpeed = 20000; // 1000 m/s
 
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float ReloadTimeInSeconds = 3;
