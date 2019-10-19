@@ -19,6 +19,22 @@ UTankAimingComponent::UTankAimingComponent()
 	// ...
 }
 
+void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+{
+	if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds)
+	{
+		FiringStatus = EFiringStatus::Reloading;
+	}
+	else if(IsBarrelMoving())
+	{
+		FiringStatus = EFiringStatus::Aiming;
+	}
+	else
+	{
+		FiringStatus = EFiringStatus::Locket;
+	}
+}
+
 void UTankAimingComponent::AimAt(FVector HitLocation)
 {
 	if (!ensure(Barrel && Turret)) { return; }
@@ -40,7 +56,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 	
 	if(bHaveAimSolution)
 	{
-		FVector AimDirection = OutLaunchVelociy.GetSafeNormal();
+		AimDirection = OutLaunchVelociy.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
 	}
 }
@@ -50,6 +66,15 @@ void UTankAimingComponent::Initialise(UTankBarrel* BarrelToSet, UTankTurret* Tur
 	if (!ensure(BarrelToSet && TurretToSet)) { return; }
 	Barrel = BarrelToSet;
 	Turret = TurretToSet;
+}
+
+
+void UTankAimingComponent::BeginPlay()
+{
+	Super::BeginPlay();
+
+	// This ensures that all tanks have to wait the reload time before firing
+	LastFireTime = FPlatformTime::Seconds();
 }
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
@@ -64,13 +89,20 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	Turret->RotateTurret(DeltaRotator.Yaw);
 }
 
+bool UTankAimingComponent::IsBarrelMoving()
+{
+	if (!Barrel) { return false; }
+	auto TankName = GetOwner()->GetName();
+	auto TankForwardVector = Barrel->GetForwardVector();
+	
+	return !AimDirection.Equals(TankForwardVector, 0.01f);
+}
+
 void UTankAimingComponent::Fire()
 {	
 	if (!ensure(Barrel && ProjectileBlueprint)) { return; }
-	
-	bool bIsReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
 
-	if (bIsReloaded)
+	if (FiringStatus != EFiringStatus::Reloading)
 	{
 		auto ProjectileSpawnLocation = Barrel->GetSocketLocation(FName("Projectile"));
 		auto ProjectileRotation = Barrel->GetSocketRotation(FName("Projectile"));
