@@ -12,7 +12,8 @@ enum class EFiringStatus : uint8
 {
 	Reloading,
 	Aiming,
-	Locket
+	Locked, // Should be LockeD. Fuck me
+	NoAmmo
 };
 
 class UTankBarrel;
@@ -37,6 +38,9 @@ public:
 	void Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 
 	EFiringStatus GetFiringStatus() { return FiringStatus; }
+
+	UFUNCTION(BlueprintCallable, Category = "Ammo")
+	int32 GetAmmoLeft() const { return AmmoLeft; }
 	
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
@@ -63,6 +67,8 @@ private:
 	UTankTurret* Turret = nullptr;
 
 	double LastFireTime = 0;
+
+	int32 AmmoLeft = 5;
 
 	FVector AimDirection;
 };
