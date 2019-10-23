@@ -107,10 +107,9 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 bool UTankAimingComponent::IsBarrelMoving()
 {
 	if (!Barrel) { return false; }
-	auto TankName = GetOwner()->GetName();
 	auto TankForwardVector = Barrel->GetForwardVector();
 	
-	return !AimDirection.Equals(TankForwardVector, 0.01f);
+	return !AimDirection.Equals(TankForwardVector, AimingTolerance);
 }
 
 void UTankAimingComponent::Fire()

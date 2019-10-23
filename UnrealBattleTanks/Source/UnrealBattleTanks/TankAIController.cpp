@@ -32,7 +32,6 @@ void ATankAIController::Tick(float DeltaTime)
 
 	TankAimingComponent->AimAt(PlayerTank->GetTargetLocation());
 
-	// TODO Fire if ready
 	if (TankAimingComponent->GetFiringStatus() == EFiringStatus::Locked)
 	{
 		TankAimingComponent->Fire();
