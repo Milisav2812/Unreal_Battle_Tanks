@@ -35,6 +35,8 @@ AProjectile::AProjectile()
 void AProjectile::BeginPlay()
 {
 	Super::BeginPlay();
+	// Because the Projectile is not a StaticMeshComponent, we need to add it to our collision mesh
+	CollisionMesh->OnComponentHit.AddDynamic(this, &AProjectile::OnHit); // Calls every frame
 }
 
 void AProjectile::LaunchProjectile(float Speed)
@@ -42,4 +44,10 @@ void AProjectile::LaunchProjectile(float Speed)
 	if (!ensure(ProjectileMovement)) { return; }
 	ProjectileMovement->SetVelocityInLocalSpace(FVector::ForwardVector * Speed);
 	ProjectileMovement->Activate();
+}
+
+void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
+{
+	LaunchBlast->Deactivate();
+	ImpactBlast->Activate();
 }
