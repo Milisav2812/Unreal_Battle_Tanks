@@ -4,7 +4,9 @@
 #include "Projectile.h"
 #include "Engine/World.h"
 #include "GameFramework/Actor.h"
+#include "GameFramework/DamageType.h"
 #include "TimerManager.h"
+#include "Kismet/GameplayStatics.h"
 #include "Components/StaticMeshComponent.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "PhysicsEngine/RadialForceComponent.h"
@@ -62,6 +64,16 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 	// We have to change the root component before we destory the mesh
 	SetRootComponent(ImpactBlast);
 	CollisionMesh->DestroyComponent();
+
+	// Apply damage to actor
+	UGameplayStatics::ApplyRadialDamage(
+		this,
+		ProjectileDamage,
+		GetActorLocation(),
+		ExplosionForce->Radius, // Determines the damage radius
+		UDamageType::StaticClass(),
+		TArray<AActor*>() // Damages all actors that are hit
+	);
 
 	FTimerHandle Timer;
 	GetWorld()->GetTimerManager().SetTimer(Timer, this, &AProjectile::OnTimerExpire, DestroyDelay, false);
