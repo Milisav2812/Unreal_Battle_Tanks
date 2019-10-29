@@ -18,6 +18,12 @@ protected:
 	virtual void Tick(float DeltaTime) override;
 
 private:
+	UFUNCTION()
+	void OnPossessedTankDeath();
+
+	// This method gets called when the AI Tank gets possessed
+	virtual void SetPawn(APawn* InPawn) override;
+
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	float AcceptanceRadius = 10000; // When the AI tank gets this close to our tank, it stops
 

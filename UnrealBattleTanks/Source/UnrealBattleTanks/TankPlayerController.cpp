@@ -26,6 +26,11 @@ void ATankPlayerController::Tick(float DeltaTime)
 	AimTowardsCrosshair();
 }
 
+void ATankPlayerController::OnPossessedTankDeath()
+
+
+}
+
 void ATankPlayerController::AimTowardsCrosshair()
 {
 	if (!GetPawn()) { return; }

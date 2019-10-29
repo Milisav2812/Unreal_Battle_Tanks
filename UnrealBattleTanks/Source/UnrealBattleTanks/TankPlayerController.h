@@ -23,6 +23,9 @@ protected:
 
 private:
 
+	UFUNCTION()
+	void OnPossessedTankDeath();
+
 	// Rotate the turret and elevate the barrel so they point to the crosshair
 	// so a shot could be fired at that location
 	void AimTowardsCrosshair();

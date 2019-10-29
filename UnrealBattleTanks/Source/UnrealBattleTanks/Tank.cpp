@@ -21,15 +21,14 @@ float ATank::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, ACo
 {
 
 	float ActualDamage = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
-	UE_LOG(LogTemp, Warning, TEXT("Actual Damage: %f"), ActualDamage)
 	ActualDamage = FMath::Clamp<float>(ActualDamage, 0, Health);
-	UE_LOG(LogTemp, Warning, TEXT("Clamped Damage: %f"), ActualDamage)
 
 	Health -= ActualDamage;
-	UE_LOG(LogTemp, Warning, TEXT("Health: %f"), Health)
+	UE_LOG(LogTemp, Warning, TEXT("%s Health: %f"), *GetName(), Health)
 	if (Health <= 0)
 	{
 		SetLifeSpan(0.001f);
+		OnDeath.Broadcast();
 	}
 	return ActualDamage;
 }
