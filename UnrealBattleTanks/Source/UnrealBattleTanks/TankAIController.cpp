@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "TankAimingComponent.h" 
 #include "GameFramework/PlayerController.h"
+#include "GameFramework/Pawn.h"
 #include "Tank.h"
 
 void ATankAIController::BeginPlay()
@@ -55,5 +56,8 @@ void ATankAIController::Tick(float DeltaTime)
 
 void ATankAIController::OnPossessedTankDeath()
 {
-	UE_LOG(LogTemp, Error, TEXT("%s is Dead! Ha Ha Ha"), *GetName())
+	if (!ensure(GetPawn())) { return; }
+
+	// Detach from the tank once it has been destroyed
+	GetPawn()->DetachFromControllerPendingDestroy();
 }

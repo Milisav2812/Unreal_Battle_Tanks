@@ -22,6 +22,8 @@ protected:
 	void FoundAimingComponent(UTankAimingComponent* TankAimingComponent);
 
 private:
+	// This method gets called when the AI Tank gets possessed
+	virtual void SetPawn(APawn* InPawn) override;
 
 	UFUNCTION()
 	void OnPossessedTankDeath();
