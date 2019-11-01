@@ -16,6 +16,7 @@ void ATankPlayerController::BeginPlay()
 	Super::BeginPlay();
 	PrimaryActorTick.bCanEverTick = true;
 
+	if (!ensure(GetPawn())) { return; }
 	TankAimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(TankAimingComponent)) { return; }
 
@@ -100,7 +101,7 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector& OutHitLocation, FV
 		HitResult,
 		StartLocation,
 		EndLocation,
-		ECollisionChannel::ECC_Visibility,
+		ECollisionChannel::ECC_Camera,
 		LineTraceParams
 		)
 	)

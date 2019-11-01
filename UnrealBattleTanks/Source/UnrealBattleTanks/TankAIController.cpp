@@ -37,7 +37,7 @@ void ATankAIController::Tick(float DeltaTime)
 
 	// UE_LOG(LogTemp, Warning, TEXT("AI Tank: %s, Player: %s"), *AITank->GetName(), *PlayerTank->GetName())
 
-	if (!ensure(PlayerTank && AITank)) { return; }
+	if (!(PlayerTank && AITank)) { return; }
 	// Move towards the player
 	MoveToActor(PlayerTank, AcceptanceRadius);
 
