@@ -28,5 +28,5 @@ public:
 
 private:
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
-	TSubclassOf<AActor> SpawnClass = nullptr;
+	TSubclassOf<ASprungWheel> SpawnClass = nullptr;
 };
