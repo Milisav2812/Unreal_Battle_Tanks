@@ -4,6 +4,7 @@
 #include "SprungWheel.h"
 #include "Components/StaticMeshComponent.h"
 #include "PhysicsEngine/PhysicsConstraintComponent.h"
+#include "Components/SphereComponent.h"
 
 // Sets default values
 ASprungWheel::ASprungWheel()
@@ -14,10 +15,15 @@ ASprungWheel::ASprungWheel()
 	// We're making the physics constraint the root component because it does not simulate physics
 	PhysicsConstraintComponent = CreateDefaultSubobject<UPhysicsConstraintComponent>(FName("Physics Constraint Component"));
 	SetRootComponent(PhysicsConstraintComponent);
-
+	
+	Axle = CreateDefaultSubobject<UStaticMeshComponent>(FName("Axle"));
+	Axle->SetupAttachment(PhysicsConstraintComponent);
 	
 	Wheel = CreateDefaultSubobject<UStaticMeshComponent>(FName("Wheel"));
-	Wheel->SetupAttachment(PhysicsConstraintComponent);
+	Wheel->SetupAttachment(Axle);
+	
+	AxleWheelConstraint = CreateDefaultSubobject<UPhysicsConstraintComponent>(FName("Axle Wheel Constraint"));
+	AxleWheelConstraint->SetupAttachment(Axle);
 }
 
 // Called when the game starts or when spawned
@@ -30,10 +36,18 @@ void ASprungWheel::BeginPlay()
 		PhysicsConstraintComponent->SetConstrainedComponents(
 			Cast<UPrimitiveComponent>(GetAttachParentActor()->GetRootComponent()),
 			NAME_None,
+			Cast<UPrimitiveComponent>(Axle),
+			NAME_None
+		);
+
+		AxleWheelConstraint->SetConstrainedComponents(
+			Cast<UPrimitiveComponent>(Axle),
+			NAME_None,
 			Cast<UPrimitiveComponent>(Wheel),
 			NAME_None
 		);
 	}
+	
 }
 
 // Called every frame
