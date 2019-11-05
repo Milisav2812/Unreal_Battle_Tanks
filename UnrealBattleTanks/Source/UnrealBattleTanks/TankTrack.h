@@ -7,6 +7,8 @@
 #include "Engine/World.h"
 #include "TankTrack.generated.h"
 
+class ASprungWheel;
+
 /**
  * 
  */
@@ -18,7 +20,6 @@ class UNREALBATTLETANKS_API UTankTrack : public UStaticMeshComponent
 	UTankTrack();
 	
 public:
-	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetThrottle(float Throttle);
@@ -28,14 +29,8 @@ public:
 	float TrackMaxDrivingForce = 40000000; // Assume 40t tank, and 1g acceleration
 
 private:
+	void DriveTrack(float CurrentThrottle);
 
-	UFUNCTION()
-	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);	
-
-	void ApplySidewaysForce();
-
-	void DriveTrack();
-
-	float CurrentThrottle = 0;
+	TArray<ASprungWheel*> GetWheels() const;
 };
 
