@@ -5,12 +5,14 @@
 #include "Components/StaticMeshComponent.h"
 #include "PhysicsEngine/PhysicsConstraintComponent.h"
 #include "Components/SphereComponent.h"
+#include "Engine/World.h"
 
 // Sets default values
 ASprungWheel::ASprungWheel()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.TickGroup = TG_PostPhysics;
 
 	// We're making the physics constraint the root component because it does not simulate physics
 	PhysicsConstraintComponent = CreateDefaultSubobject<UPhysicsConstraintComponent>(FName("Physics Constraint Component"));
@@ -30,6 +32,9 @@ ASprungWheel::ASprungWheel()
 void ASprungWheel::BeginPlay()
 {
 	Super::BeginPlay();
+
+	Wheel->SetNotifyRigidBodyCollision(true);
+	Wheel->OnComponentHit.AddDynamic(this, &ASprungWheel::OnHit);
 	
 	if (GetAttachParentActor())
 	{
@@ -55,11 +60,21 @@ void ASprungWheel::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (GetWorld()->TickGroup == TG_PostPhysics)
+	{
+		ForceToBeApplied = 0;
+	}
 }
 
 void ASprungWheel::AddDrivingForce(float ForceMagnitude)
 {
 	// We want to apply the force in the direction of the Axle's forward vector
-	Wheel->AddForce(Axle->GetForwardVector() * ForceMagnitude);
+	ForceToBeApplied += ForceMagnitude;
+}
+
+void ASprungWheel::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Force Applied: %f"), ForceToBeApplied)
+	Wheel->AddForce(Axle->GetForwardVector() * ForceToBeApplied);
 }
 
