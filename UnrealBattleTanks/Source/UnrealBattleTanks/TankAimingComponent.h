@@ -55,7 +55,7 @@ private:
 	bool IsBarrelMoving();
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	float LaunchSpeed = 20000; // 1000 m/s
+	float LaunchSpeed = 8000; 
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float ReloadTimeInSeconds = 3;
@@ -69,9 +69,9 @@ private:
 	double LastFireTime = 0;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	int32 AmmoLeft = 5;
+	int32 AmmoLeft = 30; 
 
-	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	UPROPERTY(EditAnywhere, Category = "Firing")
 	float AimingTolerance = 0.01f;
 
 	FVector AimDirection;
