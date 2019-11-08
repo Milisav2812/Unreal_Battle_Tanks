@@ -18,10 +18,10 @@ ASprungWheel::ASprungWheel()
 	PhysicsConstraintComponent = CreateDefaultSubobject<UPhysicsConstraintComponent>(FName("Physics Constraint Component"));
 	SetRootComponent(PhysicsConstraintComponent);
 	
-	Axle = CreateDefaultSubobject<UStaticMeshComponent>(FName("Axle"));
+	Axle = CreateDefaultSubobject<USphereComponent>(FName("Axle"));
 	Axle->SetupAttachment(PhysicsConstraintComponent);
 	
-	Wheel = CreateDefaultSubobject<UStaticMeshComponent>(FName("Wheel"));
+	Wheel = CreateDefaultSubobject<USphereComponent>(FName("Wheel"));
 	Wheel->SetupAttachment(Axle);
 	
 	AxleWheelConstraint = CreateDefaultSubobject<UPhysicsConstraintComponent>(FName("Axle Wheel Constraint"));
