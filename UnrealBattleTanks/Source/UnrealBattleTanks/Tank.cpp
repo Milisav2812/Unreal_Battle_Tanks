@@ -24,7 +24,6 @@ float ATank::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, ACo
 	ActualDamage = FMath::Clamp<float>(ActualDamage, 0, Health);
 
 	Health -= ActualDamage;
-	UE_LOG(LogTemp, Warning, TEXT("%s Health: %f"), *GetName(), Health)
 	if (Health <= 0)
 	{
 		// SetLifeSpan(0.001f);

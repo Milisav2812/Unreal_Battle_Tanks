@@ -2,7 +2,6 @@
 
 
 #include "SprungWheel.h"
-#include "Components/StaticMeshComponent.h"
 #include "PhysicsEngine/PhysicsConstraintComponent.h"
 #include "Components/SphereComponent.h"
 #include "Engine/World.h"
@@ -74,7 +73,6 @@ void ASprungWheel::AddDrivingForce(float ForceMagnitude)
 
 void ASprungWheel::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Force Applied: %f"), ForceToBeApplied)
 	Wheel->AddForce(Axle->GetForwardVector() * ForceToBeApplied);
 }
 
